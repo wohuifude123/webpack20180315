@@ -1,0 +1,15 @@
+{
+    "compact": false,
+    "ast": false,
+    "highlightCode": true,
+    "presets": ["env", "react", "stage-0"],
+    "plugins": [
+        "transform-runtime",
+        ["transform-es2015-modules-amd", {"strict": false}],
+        ["import", { "libraryName": "antd", "style": true }]
+    ],
+    "ignore": [
+        "biz/report/**",
+        "dsp-base/**/biz/tool/keywords/**"
+    ]
+}
