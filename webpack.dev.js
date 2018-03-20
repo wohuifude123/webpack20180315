@@ -3,6 +3,10 @@ const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
 // 引入dev-server配置文件
 let BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// a third party
+const manifest = require('./vender-manifest.json');
+const _venderName = manifest.name.split('_');
+const venderName = _venderName[0] + '.' + _venderName[1];
 
 module.exports = merge(common, {
 
@@ -10,10 +14,11 @@ module.exports = merge(common, {
         //filename: '[name].bundle.js', //出口文件名
         // filename: '[name].[chunkhash].js',
         // 可以使用__dirname变量获取当前模块文件所在目录的完整绝对路径
-        path: path.resolve(__dirname, './public'), //打包路径
+        path: __dirname + 'dist', //打包路径
         publicPath:'dist/', // 指定publicPath
-        filename: './dist/[name].bundle.js',
-        chunkFilename: './dist/[name].bundle.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
+        library: '[venderName].js'
     },
     devtool: 'source-map',
     devServer: {

@@ -34,9 +34,9 @@ module.exports = {
         ]
     },
     output: {
+        path: __dirname + 'public/dist',
         filename: '[name].[chunkhash:8].js',
-        path: __dirname + '/dist',
-        library
+        library: '[name]_[chunkhash:8]'
     },
     plugins: [
         new CleanWebpackPlugin(['dist'], cleanOptions),
@@ -55,7 +55,6 @@ module.exports = {
     ],
 
 };
-
 
 
 
