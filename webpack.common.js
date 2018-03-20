@@ -1,11 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let baseConfig = {
-    entry: {
-        'dll-user': ['./src/main.js']
-    },
+
     module: {
         rules: [
             {
@@ -65,7 +63,6 @@ let baseConfig = {
     plugins: [
         new webpack.DllReferencePlugin({
             context: __dirname,
-
             manifest: require('./public/dist/vendor-manifest.json')
         })
     ]

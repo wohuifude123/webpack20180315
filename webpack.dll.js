@@ -1,5 +1,7 @@
 const path    = require('path');
 const webpack = require('webpack');
+const NODE_ENV = process.env.NODE_ENV; // Node环境 process 对象是一个全局的变量
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -11,28 +13,16 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'public/dist'),
-        filename: '[name].dll.js',
-        /**
-         * output.library
-         * window.${output.library}に定義される
-         * 今回の場合、`window.vendor_library`になる
-         */
-        library: '[name]_library'
+        filename: NODE_ENV === 'production' ?'[name].[chunkhash:8].dll.js':'[name].dll.js',
+        library: '[name]_[chunkhash:8]'
     },
     plugins: [
+        new CleanWebpackPlugin(['public/dist'], { }),
         new webpack.DllPlugin({
-            /**
-             * path
-             * manifestファイルの出力先
-             * [name]の部分はentryの名前に変換される
-             */
+
             path: path.join(__dirname, 'public/dist', '[name]-manifest.json'),
-            /**
-             * name
-             * どの空間（global変数）にdll bundleがあるか
-             * output.libraryに指定した値を使えばよい
-             */
-            name: '[name]_library'
+            name: '[name]_[chunkhash:8]'
         })
     ]
 };
+

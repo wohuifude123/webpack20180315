@@ -5,7 +5,9 @@ const manifest = require('./public/dist/vendor-manifest.json');
 const path = require('path');
 
 module.exports = merge(common.baseConfig, {
-
+    entry: {
+        'app': ['./src/main.js']
+    },
     output: { //打包路径
         //filename: '[name].bundle.js', //出口文件名
         // filename: '[name].[chunkhash].js',
@@ -19,7 +21,7 @@ module.exports = merge(common.baseConfig, {
     devtool: 'source-map',
 
     plugins: [
-        //new webpack.HotModuleReplacementPlugin({})
+
     ],
     devServer: {
         contentBase: [path.join(__dirname, "./public")], // 本地服务器 加载页面 所在的目录
@@ -36,3 +38,5 @@ module.exports = merge(common.baseConfig, {
         // hot: true
     }
 })
+
+
