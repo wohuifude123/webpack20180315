@@ -18,7 +18,7 @@ module.exports = merge(common, {
         publicPath:'dist/', // 指定publicPath
         filename: '[name].bundle.js',
         chunkFilename: '[name].bundle.js',
-        library: '[venderName].js'
+        library: manifest.name
     },
     devtool: 'source-map',
     devServer: {
