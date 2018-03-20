@@ -3,20 +3,24 @@ const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // 第三方共有的
-const manifest = require('./vender-manifest.json');
+const manifest = require('./public/dist/vendor-manifest.json');
 const _venderName = manifest.name.split('_');
 const venderName = _venderName[0] + '.' + _venderName[1];
 
+const NODE_ENV = process.env.NODE_ENV; // Node环境 process 对象是一个全局的变量
 
-module.exports = {
+
+let baseConfig = {
     entry: {
         app: './src/main.js'
     },
+
     resolve: {
         // 定义别名
         alias: {
@@ -82,19 +86,20 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist'], { // 清除 dist 文件中的内容
-            exclude: [venderName + '.js'] // 排除 提取出的 第三方的 js
-        }),
+        // new CleanWebpackPlugin(['dist'], { // 清除 dist 文件中的内容
+        //     exclude: [venderName + '.js'] // 排除 提取出的 第三方的 js
+        // }),
         new webpack.DllReferencePlugin({
             context: __dirname,
-            manifest: require('./vender-manifest.json') // 加载 manifest.json
+            manifest: require('./public/dist/vendor-manifest.json') // 加载 manifest.json
         }),
         new HtmlWebpackPlugin({
-            filename: './index.html',
+            filename: './public/admin.html',
             template: './src/index.html',
-            //favicon: './src/favicon.ico',
+            favicon: './src/favicon.ico',
             alwaysWriteToDisk: true // 是否开启 new HtmlWebpackHarddiskPlugin()
         }),
+
         new HtmlWebpackIncludeAssetsPlugin({
             assets: [venderName + '.js'],
             append: false // 不会被 webpack 自动打包
@@ -111,3 +116,5 @@ module.exports = {
         })
     ]
 };
+
+exports.baseConfig = baseConfig;

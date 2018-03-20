@@ -11,6 +11,6 @@ import ReactDOM from 'react-dom';
 ---------------*/
 
 ReactDOM.render(
-    <h1>Hello, world!</h1>,
+    <h1>你好，我的文化里面</h1>,
     document.getElementById('app')
 );
