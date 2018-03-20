@@ -3,14 +3,13 @@
  * 时间：2017年11月
  * 功能：网站入口文件
  */
-import React from 'react';
-import ReactDOM from 'react-dom';
+import _ from 'lodash';
 
-/*---------------
-/	  全屏缩放   /
----------------*/
+function component() {
+    var element = document.createElement('div');
+    element.innerHTML = _.join(['人生里世界=Hello', 'webpack'], ' ');
+    return element;
 
-ReactDOM.render(
-    <h1>Hello, world!</h1>,
-    document.getElementById('app')
-);
+}
+
+document.body.appendChild(component());

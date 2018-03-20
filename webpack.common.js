@@ -1,29 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
-// 第三方共有的
-const manifest = require('./vender-manifest.json');
-const _venderName = manifest.name.split('_');
-const venderName = _venderName[0] + '.' + _venderName[1];
 
 
-module.exports = {
+let baseConfig = {
     entry: {
-        app: './src/main.js'
-    },
-    resolve: {
-        // 定义别名
-        alias: {
-            'SRC_PATH': path.resolve(__dirname, 'src'),
-        },
-        // 告诉webpack解析模块时应该搜索哪些目录
-        modules: [path.resolve(__dirname, 'src'), 'node_modules']
+        'dll-user': ['./src/main.js']
     },
     module: {
         rules: [
@@ -82,32 +63,13 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist'], { // 清除 dist 文件中的内容
-            exclude: [venderName + '.js'] // 排除 提取出的 第三方的 js
-        }),
         new webpack.DllReferencePlugin({
             context: __dirname,
-            manifest: require('./vender-manifest.json') // 加载 manifest.json
-        }),
-        new HtmlWebpackPlugin({
-            filename: './index.html',
-            template: './src/index.html',
-            //favicon: './src/favicon.ico',
-            alwaysWriteToDisk: true // 是否开启 new HtmlWebpackHarddiskPlugin()
-        }),
-        new HtmlWebpackIncludeAssetsPlugin({
-            assets: [venderName + '.js'],
-            append: false // 不会被 webpack 自动打包
-        }),
-        // new HtmlWebpackIncludeAssetsPlugin({
-        //     assets: ['config/env-config.js'],
-        //     append: false, // 不会被 webpack 自动打包
-        //     hash: true
-        // }),
-        new HtmlWebpackHarddiskPlugin(), // 将[venderName + '.js']和['env-config.js']放进 index.html 中
-        new webpack.DefinePlugin({ // 创建一个编译时可以配置的全局常量
-            PRODUCTION: JSON.stringify(true),
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+
+            manifest: require('./public/dist/vendor-manifest.json')
         })
     ]
 };
+
+
+exports.baseConfig = baseConfig;
