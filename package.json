@@ -5,8 +5,9 @@
     "main": "webpack.config.js",
     "scripts": {
         "dev": "webpack-dev-server --config webpack.dev.js --progress",
-        "build": "NODE_ENV=production webpack --config webpack.prod.js --progress",
-        "dll": "NODE_ENV=production webpack --config webpack.dll.js --progress"
+        "dev-dll": "NODE_ENV=develop webpack --config webpack.dll.js --progress",
+        "build": "webpack --config webpack.prod.js --progress",
+        "build-dll": "NODE_ENV=production webpack --config webpack.dll.js --progress"
     },
     "keywords": [],
     "author": "",
@@ -32,6 +33,7 @@
         "babel-preset-stage-0": "^6.24.1",
         "body-parser": "^1.18.2",
         "clean-webpack-plugin": "^0.1.17",
+        "copy-webpack-plugin": "^4.3.1",
         "cookie-parser": "^1.4.3",
         "css-loader": "^0.28.7",
         "eslint": "^4.11.0",

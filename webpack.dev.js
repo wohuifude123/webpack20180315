@@ -29,13 +29,17 @@ module.exports = merge(common.baseConfig, {
         open: false // 将自动打开浏览器
     },
     plugins:[
-
+        new webpack.HotModuleReplacementPlugin(), // 热加载的插件，使用缓存时请注释
         new BundleAnalyzerPlugin({
             analyzerMode: 'server', // static/disabled
             analyzerHost: '127.0.0.1',
             analyzerPort: 9900,
             openAnalyzer: false
-        })
+        }),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./server/dist/vendor-manifest.json')
+        }),
     ]
 });
 

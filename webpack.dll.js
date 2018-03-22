@@ -35,14 +35,15 @@ module.exports = {
         ]
     },
     output: {
-        path: path.join(__dirname, 'public/dist'),
-        filename: '[name].[chunkhash:8].dll.js',
+        path: NODE_ENV === 'production'?path.join(__dirname, 'public/dist/'):path.join(__dirname, 'server/dist/'),
+        filename: NODE_ENV === 'production' ? '[name].[chunkhash:8].dll.js':'[name].dll.js',
         library: library
     },
     plugins: [
-        new CleanWebpackPlugin(['dist'], {}),
+        new CleanWebpackPlugin(['public/dist'], {}),
+
         new webpack.DllPlugin({
-            path: path.join(__dirname, 'public/dist', '[name]-manifest.json'),
+            path: NODE_ENV === 'production' ? path.join(__dirname, 'public/dist', '[name]-manifest.json'):path.join(__dirname, 'server/dist/', '[name]-manifest.json'),
             name: library,   // dll暴露的对象名,跟output.library保持一致
         }),
         new UglifyJSPlugin({

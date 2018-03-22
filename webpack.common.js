@@ -89,27 +89,7 @@ let baseConfig = {
         // new CleanWebpackPlugin(['dist'], { // 清除 dist 文件中的内容
         //     exclude: [venderName + '.js'] // 排除 提取出的 第三方的 js
         // }),
-        new webpack.DllReferencePlugin({
-            context: __dirname,
-            manifest: require('./public/dist/vendor-manifest.json') // 加载 manifest.json
-        }),
-        new HtmlWebpackPlugin({
-            filename: './public/admin.html',
-            template: './src/index.html',
-            favicon: './src/favicon.ico',
-            alwaysWriteToDisk: true // 是否开启 new HtmlWebpackHarddiskPlugin()
-        }),
 
-        new HtmlWebpackIncludeAssetsPlugin({
-            assets: [venderName + '.js'],
-            append: false // 不会被 webpack 自动打包
-        }),
-        // new HtmlWebpackIncludeAssetsPlugin({
-        //     assets: ['config/env-config.js'],
-        //     append: false, // 不会被 webpack 自动打包
-        //     hash: true
-        // }),
-        new HtmlWebpackHarddiskPlugin(), // 将[venderName + '.js']和['env-config.js']放进 index.html 中
         new webpack.DefinePlugin({ // 创建一个编译时可以配置的全局常量
             PRODUCTION: JSON.stringify(true),
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
